@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/drawable/border_redondos.xml" value="0.2203125" />
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/drawable/button_round.xml" value="0.11458333333333333" />
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/drawable/close.xml" value="0.2203125" />
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/layout/activity_menu.xml" value="0.27219202898550726" />
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/layout/activity_menu2.xml" value="0.1875" />
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/layout/button_round.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/TIC3/AndroidStudioProjects/GESLapp/app/src/main/res/layout/custom_dialog.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/activity_list_item.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable-v24/alert_redondeado.xml" value="0.13778501628664494" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/bajo.xml" value="0.13778501628664494" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/border_color.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/border_redondos.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/border_spiner.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/boton_circulo.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/button_round.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/button_round_asistencia.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/circulo.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/close.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/edittext_border.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_barras.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_baseline_close_24.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_baseline_crop_free_24.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_flecha.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_footer.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_info.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_info_24.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_scanner.xml" value="0.12777777777777777" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/ic_search_24.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/drawable/sombra_circulo.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_cajas.xml" value="0.18" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_centroactivo.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_elegircentro.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_elegirtienda.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_escaneartienda.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_menu.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_prescanner.xml" value="0.2" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_procesoporlotes.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/activity_registro.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/continuous_scan.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/custom_dialog.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/layout/etq_dialog.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Desktop/GESLapp2/GESLapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.13914473684210527" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/drawable/background_gradient.xml" value="0.164" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/activity_elegircentro.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/activity_main.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/activity_menu.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/activity_prescanner.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/activity_procesoporlotes.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/activity_scannercajas.xml" value="0.5" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/continuous_scan.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/custom_dialog.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Documents/GESLapp/app/src/main/res/layout/escaner_continuo.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/drawable/border_redondos.xml" value="0.164" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/drawable/boton_circulo.xml" value="0.164" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/drawable/dialog_bg.xml" value="0.164" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/drawable/textdialog_bg.xml" value="0.164" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_capture.xml" value="0.18" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_carga.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_centroactivo.xml" value="0.22" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_elegircentro.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_informes.xml" value="0.22" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_material_invent.xml" value="0.22" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_menu.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_prescanner.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_procesoporlotes.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_rv_general.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_rv_items.xml" value="0.22" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/activity_scannercajas.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/app_bar.xml" value="0.33" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/bottomconfig.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/bottomsheet.xml" value="0.33" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/card_antenas.xml" value="0.22" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/card_etqs.xml" value="0.18" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/card_general.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/card_infor.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/card_items.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/custom_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/dialog_cargar.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/dialog_foto.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/dialog_fotos.xml" value="0.18" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/etq_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/rv_dashboard.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/rv_etqs.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/rv_general.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/rv_item.xml" value="0.25" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/rv_items.xml" value="0.18" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/splash.xml" value="0.12894736842105264" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/layout/stetqdialog.xml" value="0.33" />
+        <entry key="..\:/Users/TIC3/Documents/GeslAppSinUserLocal/app/src/main/res/xml/provider_paths.xml" value="0.1" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_carga.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_informes.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_main.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_menu.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_prescanner.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_procesoporlotes.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_registro.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_rv_general.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/activity_rv_items.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/continuous_scan.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/TIC4/Desktop/GeslAppSinUserLocal/app/src/main/res/layout/splash.xml" value="0.22039473684210525" />
+        <entry key="..\:/Users/yagos/.gradle/caches/transforms-3/7c482ec70a0a5952406c56bc57bfc665/transformed/jetified-zxing-android-embedded-3.4.0/res/layout/zxing_capture.xml" value="0.1" />
+        <entry key="..\:/Users/yagos/AppData/Local/Android/Sdk/platforms/android-31/data/res/layout/simple_spinner_dropdown_item.xml" value="0.17335526315789473" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable-v24/alert_redondeado.xml" value="0.290625" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/border_color.xml" value="0.290625" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/border_redondos.xml" value="0.290625" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/border_spiner.xml" value="0.12368421052631579" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/button_round.xml" value="0.18355263157894736" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/close2.xml" value="0.18355263157894736" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/ic_baseline_error_outline_24.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/ic_info.xml" value="0.2" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/ic_info_24.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/drawable/ic_search_24.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/activity_centroactivo.xml" value="0.176" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/activity_escaneartienda.xml" value="0.176" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/activity_main.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/activity_menu.xml" value="0.152" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/activity_procesoporlotes.xml" value="0.264" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/activity_registro.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/ativity_menu.xml" value="0.17708333333333334" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/close.xml" value="0.17335526315789473" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/continuous_scan.xml" value="0.176" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/custom_dialog.xml" value="0.14166666666666666" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/escaner_continuo.xml" value="0.152" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/etq_dialog.xml" value="0.264" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/etqqqqq.xml" value="0.17335526315789473" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/layout/superscanner.xml" value="0.16" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.19322916666666667" />
+        <entry key="..\:/Users/yagos/OneDrive/Escritorio/GESLapp/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.19322916666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
