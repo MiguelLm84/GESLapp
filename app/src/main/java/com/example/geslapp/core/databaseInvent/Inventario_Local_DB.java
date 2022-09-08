@@ -1,5 +1,6 @@
 package com.example.geslapp.core.databaseInvent;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.geslapp.core.clases.ConfigPreferences;
 import com.example.geslapp.core.clases.Informes;
+import com.example.geslapp.core.clases.Inventario;
 import com.example.geslapp.core.database.Login_Local_DB;
 import com.example.geslapp.core.requests.AntenasRequest;
 import com.example.geslapp.core.requests.InventarioRequest;
@@ -84,10 +86,42 @@ public class Inventario_Local_DB extends SQLiteOpenHelper {
 
     }
 
+    public void getInvent(Context context) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        ArrayList<String> listaInventarios = new ArrayList<>();
+
+        Cursor c = db.rawQuery("SELECT * FROM inventario", null);
+
+        if (c != null && c.getCount() != 0) {
+            c.moveToFirst();
+           do {
+               listaInventarios.add(String.valueOf(new Inventario(
+                       c.getInt(1),
+                       c.getInt(2),
+                       c.getString(3),
+                       new Date(c.getString(4)),
+                       new Date(c.getString(5)),
+                       new Date(c.getString(6)),
+                       c.getInt(7),
+                       c.getInt(8),
+                       c.getString(9),
+                       c.getInt(10),
+                       c.getString(11),
+                       c.getInt(12)
+               )));
+
+           } while(c.moveToNext());
+
+        } else {
+            Toast.makeText(context, "No hay registros", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     public void setInventarios() {
 
         SQLiteDatabase db = this.getWritableDatabase();
-        String date = new SimpleDateFormat("yyyy.MM.dd").format(Calendar.getInstance().getTime());
+        @SuppressLint("SimpleDateFormat") String date = new SimpleDateFormat("yyyy.MM.dd").format(Calendar.getInstance().getTime());
 
         onUpgrade(db,1,1);
         for (int i = 0; i<3;i++) {

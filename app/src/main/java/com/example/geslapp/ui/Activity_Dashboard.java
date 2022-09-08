@@ -47,7 +47,7 @@ public class Activity_Dashboard extends AppCompatActivity {
         con_invent = getIntent().getBooleanExtra("con_invent",false);
         username = getIntent().getStringExtra("username");
         Inventario_Local_DB inventario_local_db = new Inventario_Local_DB(getApplicationContext());
-       if(con_invent)inventario_local_db.fillInventario(getApplicationContext(),username);
+        if(con_invent)inventario_local_db.fillInventario(getApplicationContext(),username);
 
         listaCentros =  getIntent().getStringArrayListExtra("listaCentros");
         listaidCentros =  getIntent().getStringArrayListExtra("listaIdsCentros");
@@ -86,15 +86,9 @@ public class Activity_Dashboard extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-
                centro = centros.getSelectedItem().toString();
                ceco = Integer.parseInt(listaidCentros.get(position));
                if(con_invent) antenas_local_db.fillDBdata(Activity_Dashboard.this,config.getIP(getApplicationContext()),config.getRec(getApplicationContext()),ceco);
-
-
-
-
-
             }
 
             @Override

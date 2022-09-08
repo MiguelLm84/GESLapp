@@ -114,6 +114,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
         butmenu = findViewById(R.id.butCamenu2);
         txtuser = findViewById(R.id.txtCauser1);
         butrecogidas = findViewById(R.id.butrecogidos);
+        btnDescargaInventarios = findViewById(R.id.btnDescargaInventarios);
         txtversion = findViewById(R.id.txtCversion);
         txtuser.setText(getIntent().getStringExtra("username"));
 
@@ -450,6 +451,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
     }
 
     private boolean checkPermission() {
+
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
 

@@ -37,6 +37,7 @@ import java.util.Arrays;
 
 
 public class ActivityCarga extends AppCompatActivity {
+
     ArrayList<String> listaCentros = new ArrayList<>();
     ArrayList<String> listaIdsCentros = new ArrayList<>();
     ArrayList<String> listaCecos = new ArrayList<>();
@@ -108,23 +109,20 @@ public class ActivityCarga extends AppCompatActivity {
 
 
                     StringRequest versiongesl = new StringRequest(Request.Method.POST, "http://"+IP+"/gesl/"+REC+"/version.php",
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject jsonResponse = new JSONObject(response);
-                                        String v = jsonResponse.getString("version");
-                                        version = "GESL V." + v;
-                                        intent.putExtra("version", version);
-                                        config.setVApp(getApplicationContext(),version);
-                                        //versionTv.setText(version);
-                                        // Toast.makeText(getApplicationContext(), "version " + version, Toast.LENGTH_LONG).show();
+                            response13 -> {
+                                try {
+                                    JSONObject jsonResponse1 = new JSONObject(response13);
+                                    String v = jsonResponse1.getString("version");
+                                    version = "GESL V." + v;
+                                    intent.putExtra("version", version);
+                                    config.setVApp(getApplicationContext(),version);
+                                    //versionTv.setText(version);
+                                    // Toast.makeText(getApplicationContext(), "version " + version, Toast.LENGTH_LONG).show();
 
-                                        t[2] = true;
+                                    t[2] = true;
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
                             }, Throwable::printStackTrace);
 //        int socketTimeout = 30000;
@@ -135,84 +133,69 @@ public class ActivityCarga extends AppCompatActivity {
 
 
                     StringRequest centroRequest = new StringRequest(Request.Method.POST, "http://"+IP+"/gesl/"+REC+"/centros.php",
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response);
-                                        JSONArray jsonArray = jsonObject.getJSONArray("array");
-                                        for (int i = 0; i < jsonArray.length(); i++) {
-                                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            response12 -> {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response12);
+                                    JSONArray jsonArray = jsonObject.getJSONArray("array");
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
-                                            String nombre = jsonObject1.getString("nombre");
-                                            String id = String.valueOf(jsonObject1.getInt("id"));
-                                            String ceco = String.valueOf(jsonObject1.getInt("ceco"));
-                                            String ip = jsonObject1.getString("ip");
-                                            String dominio = jsonObject1.getString("domain");
-                                            listaCentros.add(nombre);
-                                            System.out.println(nombre);
-                                            listaIdsCentros.add(id);
-                                            System.out.println(id);
-                                            listaCecos.add(ceco);
-                                            System.out.println(ceco);
-                                            listaIps.add(ip);
-                                            System.out.println(ip);
-                                            listaDominios.add(dominio);
-                                            System.out.println(dominio);
-
-                                        }
-                                        String listaN = Arrays.toString(listaCentros.toArray());
-                                        System.out.println(listaN);
-                                        String listaId = Arrays.toString(listaIdsCentros.toArray());
-                                        System.out.println(listaId);
-
-
-                                        intent.putStringArrayListExtra("listaCentros", listaCentros);
-                                        intent.putStringArrayListExtra("listaIdsCentros", listaIdsCentros);
-                                        intent.putStringArrayListExtra("listaCecos", listaCecos);
-                                        intent.putStringArrayListExtra("listaIps", listaIps);
-                                        intent.putStringArrayListExtra("listaDominios", listaDominios);
-                                        intent.putExtra("password", password);
-                                        intent.putExtra("username", username);
-                                        t[0] = true;
-
-                                        listaCentros = null;
-                                        listaIdsCentros = null;
-                                        listaCecos = null;
-                                        listaIps = null;
-                                        listaDominios = null;
-                                        listaModelos = null;
-                                        listaTamanos = null;
-                                        listaIdsModelos = null;
-
-                                        config.setCon(getApplicationContext(),true);
-                                        config.setLastCon(getApplicationContext());
-
-                                        Handler handler = new Handler();
-                                        handler.postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                if(t[0] && t[2] && t[1]) {
-                                                    startActivity(intent);
-                                                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                                                    finish();
-                                                }
-                                            }
-                                        },7000);
-
-
-
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
+                                        String nombre = jsonObject1.getString("nombre");
+                                        String id = String.valueOf(jsonObject1.getInt("id"));
+                                        String ceco = String.valueOf(jsonObject1.getInt("ceco"));
+                                        String ip = jsonObject1.getString("ip");
+                                        String dominio = jsonObject1.getString("domain");
+                                        listaCentros.add(nombre);
+                                        System.out.println(nombre);
+                                        listaIdsCentros.add(id);
+                                        System.out.println(id);
+                                        listaCecos.add(ceco);
+                                        System.out.println(ceco);
+                                        listaIps.add(ip);
+                                        System.out.println(ip);
+                                        listaDominios.add(dominio);
+                                        System.out.println(dominio);
                                     }
+
+                                    String listaN = Arrays.toString(listaCentros.toArray());
+                                    System.out.println(listaN);
+                                    String listaId = Arrays.toString(listaIdsCentros.toArray());
+                                    System.out.println(listaId);
+
+                                    intent.putStringArrayListExtra("listaCentros", listaCentros);
+                                    intent.putStringArrayListExtra("listaIdsCentros", listaIdsCentros);
+                                    intent.putStringArrayListExtra("listaCecos", listaCecos);
+                                    intent.putStringArrayListExtra("listaIps", listaIps);
+                                    intent.putStringArrayListExtra("listaDominios", listaDominios);
+                                    intent.putExtra("password", password);
+                                    intent.putExtra("username", username);
+                                    t[0] = true;
+
+                                    listaCentros = null;
+                                    listaIdsCentros = null;
+                                    listaCecos = null;
+                                    listaIps = null;
+                                    listaDominios = null;
+                                    listaModelos = null;
+                                    listaTamanos = null;
+                                    listaIdsModelos = null;
+
+                                    config.setCon(getApplicationContext(),true);
+                                    config.setLastCon(getApplicationContext());
+
+                                    Handler handler = new Handler();
+                                    handler.postDelayed(() -> {
+                                        if(t[0] && t[2] && t[1]) {
+                                            startActivity(intent);
+                                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                                            finish();
+                                        }
+                                    },2000);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            error.printStackTrace();
-                        }
-                    });
+                            }, Throwable::printStackTrace);
                     RequestQueue requestQueue = Volley.newRequestQueue(ActivityCarga.this);
                     requestQueue.add(centroRequest);
 

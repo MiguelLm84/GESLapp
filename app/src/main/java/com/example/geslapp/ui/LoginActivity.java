@@ -28,6 +28,7 @@ import com.example.geslapp.R;
 import com.example.geslapp.core.clases.CheckConnection;
 import com.example.geslapp.core.clases.ConfigPreferences;
 import com.example.geslapp.core.database.Login_Local_DB;
+import com.example.geslapp.core.databaseInvent.Inventario_Local_DB;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -64,12 +65,10 @@ public class LoginActivity extends AppCompatActivity {
 
         int inicio = config.getFirstTimeRun(getApplicationContext());
         IP = config.getIP(getApplicationContext());
-        if(inicio == 0 || IP == null)
-        {
+        if(inicio == 0 || IP == null) {
             showconfingdialog();
             IP = config.getIP(getApplicationContext());
             REC = config.getRec(getApplicationContext());
-
         }
         IP = config.getIP(getApplicationContext());
         REC = config.getRec(getApplicationContext());
@@ -79,78 +78,66 @@ public class LoginActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES},101);
         }
 
-
-
-
-
-
-
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                connection();
-                /*new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                String serverResponse = new CheckConnection().getServerResponse();
-
-
-                if (serverResponse != null) {
-                    new CheckConnection().setServer_response();
-
-                    if (etqName.getText().toString().isEmpty()) {
-                        Toast.makeText(getApplicationContext(), "Campo Nombre vacío", Toast.LENGTH_LONG).show();
-                    } else {
-                        if (etqPass.getText().toString().isEmpty()) {
-                            Toast.makeText(getApplicationContext(), "Campo password vacío", Toast.LENGTH_LONG).show();
-                        } else {
-
-
-                        }
-                    }
-                    username = etqName.getText().toString().trim();
-                    password = etqPass.getText().toString().trim();
-                  //  Toast.makeText(getApplicationContext(), password, Toast.LENGTH_SHORT).show();
-                    if (etqName.length() == 0 || etqPass.length() == 0) {
-
-                    } else {
-
-                        Intent t = new Intent(LoginActivity.this,ActivityCarga.class);
-                        t.putExtra("username",username);
-                        t.putExtra("password",password);
-                        startActivity(t);
-                        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-
-
-                    }
-                } else {
-                    new CheckConnection().setServer_response();
-                    username = etqName.getText().toString().trim();
-                    password = etqPass.getText().toString().trim();
-                    password = getMD5(password);
-
-
-                    if (login_local_db.checkUser(username, password)) {
-                        config.setCon(getApplicationContext(),false);
-                        Intent t = new Intent(LoginActivity.this, MenuActivity.class);
-                        t.putExtra("username", username);
-                        startActivity(t);
-                        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-                        Toast.makeText(getApplicationContext(), "LOGIN LOCAL CORRECTO", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "LOGIN LOCAL INCORRECTO", Toast.LENGTH_SHORT).show();
-                    }
-
-
-                    Toast.makeText(getApplicationContext(), "NO SE HA PODIDO ESTABLECER LA CONEXION CON EL HOST, TRABAJANDO EN LOCAL", Toast.LENGTH_SHORT).show();
-                }*/
-
+        btnLogin.setOnClickListener(v -> {
+            connection();
+            /*new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            String serverResponse = new CheckConnection().getServerResponse();
 
+
+            if (serverResponse != null) {
+                new CheckConnection().setServer_response();
+
+                if (etqName.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Campo Nombre vacío", Toast.LENGTH_LONG).show();
+                } else {
+                    if (etqPass.getText().toString().isEmpty()) {
+                        Toast.makeText(getApplicationContext(), "Campo password vacío", Toast.LENGTH_LONG).show();
+                    } else {
+
+
+                    }
+                }
+                username = etqName.getText().toString().trim();
+                password = etqPass.getText().toString().trim();
+              //  Toast.makeText(getApplicationContext(), password, Toast.LENGTH_SHORT).show();
+                if (etqName.length() == 0 || etqPass.length() == 0) {
+
+                } else {
+
+                    Intent t = new Intent(LoginActivity.this,ActivityCarga.class);
+                    t.putExtra("username",username);
+                    t.putExtra("password",password);
+                    startActivity(t);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+
+
+                }
+            } else {
+                new CheckConnection().setServer_response();
+                username = etqName.getText().toString().trim();
+                password = etqPass.getText().toString().trim();
+                password = getMD5(password);
+
+
+                if (login_local_db.checkUser(username, password)) {
+                    config.setCon(getApplicationContext(),false);
+                    Intent t = new Intent(LoginActivity.this, MenuActivity.class);
+                    t.putExtra("username", username);
+                    startActivity(t);
+                    overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+                    Toast.makeText(getApplicationContext(), "LOGIN LOCAL CORRECTO", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "LOGIN LOCAL INCORRECTO", Toast.LENGTH_SHORT).show();
+                }
+
+
+                Toast.makeText(getApplicationContext(), "NO SE HA PODIDO ESTABLECER LA CONEXION CON EL HOST, TRABAJANDO EN LOCAL", Toast.LENGTH_SHORT).show();
+            }*/
 
         });
 
@@ -162,46 +149,49 @@ public class LoginActivity extends AppCompatActivity {
                 Registro(v);
             }
         });
-
-
     }
 
     private void connection() {
 
-        new Handler().postDelayed(() -> {
-            new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
-        }, 2000);
-
+        new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String serverResponse = new CheckConnection().getServerResponse();
 
+        new CheckConnection().setServer_response();
         if (serverResponse != null) {
-            new CheckConnection().setServer_response();
 
             if (etqName.getText().toString().isEmpty()) {
                 Toast.makeText(getApplicationContext(), "Campo Nombre vacío", Toast.LENGTH_LONG).show();
-
-            } else if (etqPass.getText().toString().isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Campo Password vacío", Toast.LENGTH_LONG).show();
+            } else {
+                if (etqPass.getText().toString().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Campo password vacío", Toast.LENGTH_LONG).show();
+                }
             }
-            //username = etqName.getText().toString().trim();
-            //password = etqPass.getText().toString().trim();
-
+            username = etqName.getText().toString().trim();
+            password = etqPass.getText().toString().trim();
             //  Toast.makeText(getApplicationContext(), password, Toast.LENGTH_SHORT).show();
-            else if (etqName.length() == 0 || etqPass.length() == 0) {
-                Toast.makeText(LoginActivity.this, "Los datos introducidos son incorrectos", Toast.LENGTH_SHORT).show();
+            if (etqName.length() == 0 || etqPass.length() == 0) {
 
             } else {
+
                 Intent t = new Intent(LoginActivity.this,ActivityCarga.class);
                 t.putExtra("username",username);
                 t.putExtra("password",password);
                 startActivity(t);
                 overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+
+                //Inventario_Local_DB inventario_local_db = new Inventario_Local_DB(getApplicationContext());
+                //inventario_local_db.fillInventario(getApplicationContext(),username);
             }
         } else {
-            new CheckConnection().setServer_response();
             username = etqName.getText().toString().trim();
             password = etqPass.getText().toString().trim();
             password = getMD5(password);
+
 
             if (login_local_db.checkUser(username, password)) {
                 config.setCon(getApplicationContext(),false);

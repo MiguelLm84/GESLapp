@@ -89,7 +89,7 @@ public class MenuActivity extends AppCompatActivity {
         txtuser.setText(username);
         startCheckConnection();
 
-      butmenu.setOnClickListener(v -> showdialog());
+        butmenu.setOnClickListener(v -> showdialog());
 
         btnProcesoLotes.setOnClickListener(view -> {
             Intent intent= new Intent(MenuActivity.this, ProcesoPorLotesActivity.class);
@@ -165,18 +165,16 @@ public class MenuActivity extends AppCompatActivity {
 
         if(config.getCon(getApplicationContext())) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.online);
-
             imgcon.setImageBitmap(bitmap);
-        }
-        else
-        {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.offline);
 
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.offline);
             imgcon.setImageBitmap(bitmap);
         }
     }
 
     private void showdialog() {
+
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomsheet);
@@ -208,16 +206,10 @@ public class MenuActivity extends AppCompatActivity {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(updated)
-                        {
+                        if(updated) {
                             config.setLastAppUpdate(getApplicationContext());
-                            txtlastupdate.setText(config.getLastAppUpdate(getApplicationContext()));
                         }
-                        else
-                        {
-                            txtlastupdate.setText(config.getLastAppUpdate(getApplicationContext()));
-                        }
-
+                        txtlastupdate.setText(config.getLastAppUpdate(getApplicationContext()));
 
                     } else {
                         requestPermission();
@@ -229,7 +221,6 @@ public class MenuActivity extends AppCompatActivity {
                 }
             }//end on click
         });
-
 
 
         infolayout.setOnClickListener(new View.OnClickListener() {

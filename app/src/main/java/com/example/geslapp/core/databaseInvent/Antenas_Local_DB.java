@@ -55,40 +55,36 @@ public class Antenas_Local_DB extends SQLiteOpenHelper {
     {
         SQLiteDatabase db = this.getWritableDatabase();
         onUpgrade(db,1,1);
-        Response.Listener<String> LISTENER = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        Response.Listener<String> LISTENER = response -> {
 
+            try {
+                JSONObject jsonObject= new JSONObject(response);
+                int success = jsonObject.getInt("success");
+                String request = jsonObject.getString("message");
 
-                try {
-                    JSONObject jsonObject= new JSONObject(response);
-                    int success = jsonObject.getInt("success");
-                    String request = jsonObject.getString("message");
-
-                    if (success == 1) {
-                        //Toast.makeText(context, "Insert realizado exitosamente", Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        Toast.makeText(context, "Ha ocurrido un problema, volver a cargar", Toast.LENGTH_SHORT).show();
-                    }
-
-                        JSONArray jsonArray = jsonObject.getJSONArray("array");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                        int id_antena = jsonObject1.getInt("id");
-                        int id_centro = jsonObject1.getInt("id_centro");
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put("id_antena", id_antena);
-                        contentValues.put("id_centro",id_centro);
-                        db.insert(TABLE_NAME, null, contentValues);
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                if (success == 1) {
+                    //Toast.makeText(context, "Insert realizado exitosamente", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(context, "Ha ocurrido un problema, volver a cargar", Toast.LENGTH_SHORT).show();
                 }
 
+                    JSONArray jsonArray = jsonObject.getJSONArray("array");
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                    int id_antena = jsonObject1.getInt("id");
+                    int id_centro1 = jsonObject1.getInt("id_centro");
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put("id_antena", id_antena);
+                    contentValues.put("id_centro", id_centro1);
+                    db.insert(TABLE_NAME, null, contentValues);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+
         };
         String idcentro = String.valueOf(id_centro);
         //Toast.makeText(context, idcentro, Toast.LENGTH_SHORT).show();
