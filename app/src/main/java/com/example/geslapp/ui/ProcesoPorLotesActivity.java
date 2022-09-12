@@ -15,6 +15,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Explode;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -47,6 +48,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ProcesoPorLotesActivity extends AppCompatActivity {
+
     private static final int PERMISSION_REQUEST_CODE = 200;
     Button butcaja, butetq, butinvent, butscanstore, butmenu, butrecogidas, btnDescargaInventarios;
     TextView txtversion, trackingTv, tvCaja, txtuser;
@@ -54,7 +56,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
     ArrayList<String> listaCentros, listaIps, listaDominios, listaIdsCentros,listaCecos,listaModelos,listaIdsModelos,listaTamanos;
     String version;
     ImageView imgcon;
-    private ConfigPreferences config = new ConfigPreferences();
+    private final ConfigPreferences config = new ConfigPreferences();
     private static String IP,REC;
     private static boolean con_invent = false;
     private static final  String SERVER_RESPONSE = new CheckConnection().getServerResponse();
@@ -63,7 +65,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.zoom_back_in,R.anim.zoom_back_out);
+        //overridePendingTransition(R.anim.zoom_back_in,R.anim.zoom_back_out);
         setContentView(R.layout.activity_procesoporlotes);
         init();
         getArgs();
@@ -127,7 +129,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
         butrecogidas.setOnClickListener(v -> {
             Intent t = new Intent(ProcesoPorLotesActivity.this,RecogidasActivity.class);
             startActivity(t);
-            overridePendingTransition(R.anim.zoom_back_in,R.anim.zoom_back_out);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
     }
 
@@ -142,7 +144,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
             intent.putStringArrayListExtra("listaTamanos", listaTamanos);
             intent.putStringArrayListExtra("listaIdsModelos", listaIdsModelos);
             startActivity(intent);
-            overridePendingTransition(R.anim.zoom_back_in,R.anim.zoom_back_out);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
     }
 
@@ -151,7 +153,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
         butetq.setOnClickListener(view -> {
             Intent t = new Intent(ProcesoPorLotesActivity.this,EtiquetasActivity.class);
             startActivity(t);
-            overridePendingTransition(R.anim.zoom_back_in,R.anim.zoom_back_out);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
     }
 
@@ -162,7 +164,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
             Intent scannercaja = new Intent(ProcesoPorLotesActivity.this,CajasActivity.class);
             scannercaja.putExtra("tipo",tipo);
             startActivity(scannercaja);
-            overridePendingTransition(R.anim.zoom_back_in,R.anim.zoom_back_out);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
         });
     }
 
@@ -204,9 +206,13 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
     private void startCheckConnection() {
 
         new Update().cancel(true);
-        new Handler().postDelayed(() -> {
+        /*new Handler().postDelayed(() -> {
             new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
-        }, 500);
+        }, 500);*/
+
+        new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
+        Explode explode = new Explode();
+        explode.setDuration(500);
 
         //new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
         /*try {
@@ -216,6 +222,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
         }*/
 
         //String serverResponse = new CheckConnection().getServerResponse();
+        //Toast.makeText(this, "serverResponse: " + SERVER_RESPONSE, Toast.LENGTH_SHORT).show();
 
         if (SERVER_RESPONSE == null) {
             config.setCon(getApplicationContext(),false);
@@ -465,7 +472,7 @@ public class ProcesoPorLotesActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.zoom_back_in, R.anim.zoom_back_out);
+        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 }
 

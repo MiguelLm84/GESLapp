@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +31,8 @@ import com.example.geslapp.core.databaseInvent.Tipo_Informe_Local_DB;
 import java.util.ArrayList;
 
 public class Activity_Dashboard extends AppCompatActivity {
+
+    ConstraintLayout constarinLayoutLottie, constraintLayoutLottieLupa, constraintLayoutNoHayInformes;
     Spinner centros;
     private RecyclerView rvdash;
     private RecyclerView.Adapter rvadapter;
@@ -40,6 +43,7 @@ public class Activity_Dashboard extends AppCompatActivity {
     Button butfind;
     private boolean con_invent;
     private static String username;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,24 +59,44 @@ public class Activity_Dashboard extends AppCompatActivity {
         centros = findViewById(R.id.spincentros1);
         rvdash = findViewById(R.id.rvinformes);
         butfind = findViewById(R.id.butfind);
+        constarinLayoutLottie = findViewById(R.id.constarinLayoutLottie);
+        constraintLayoutLottieLupa = findViewById(R.id.constraintLayoutLottieLupa);
+        constraintLayoutNoHayInformes = findViewById(R.id.constraintLayoutNoHayInformes);
 
         Antenas_Local_DB antenas_local_db = new Antenas_Local_DB(getApplicationContext());
         ConfigPreferences config = new ConfigPreferences();
+
+        constarinLayoutLottie.setVisibility(View.VISIBLE);
+        constraintLayoutLottieLupa.setVisibility(View.GONE);
+
         butfind.setOnClickListener(v -> {
 
             layoutManager = new LinearLayoutManager(getApplicationContext());
             rvdash.setLayoutManager(layoutManager);
             ArrayList<Informes> centroSelectec = inventario_local_db.centroselected(ceco,username);
             rvadapter = new RvInformesAdapter(getApplicationContext(),username,centro,centroSelectec,ceco,Activity_Dashboard.this,con_invent);
-            rvdash.setAdapter(rvadapter);
+            constraintLayoutNoHayInformes.setVisibility(View.GONE);
+            constarinLayoutLottie.setVisibility(View.GONE);
+            constraintLayoutLottieLupa.setVisibility(View.GONE);
+
+            if(centroSelectec == null || centroSelectec.isEmpty()){
+                constraintLayoutNoHayInformes.setVisibility(View.VISIBLE);
+                rvdash.setVisibility(View.INVISIBLE);
+
+            } else {
+                constraintLayoutNoHayInformes.setVisibility(View.GONE);
+                rvdash.setVisibility(View.VISIBLE);
+                rvdash.setAdapter(rvadapter);
+            }
         });
 
-        centros.setAdapter(new ArrayAdapter<String>(Activity_Dashboard.this, android.R.layout.simple_spinner_dropdown_item, listaCentros) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Activity_Dashboard.this, android.R.layout.simple_spinner_dropdown_item, listaCentros) {
 
             public View getView(int position, View convertView, ViewGroup parent) {
 
                 View v = super.getView(position, convertView, parent);
                 TextView tv = ((TextView) v);
+
                 tv.setTextColor(getResources().getColor(R.color.blue_20, getTheme()));
                 tv.setTypeface(tv.getTypeface(), Typeface.BOLD);
                 tv.setSingleLine();
@@ -81,14 +105,25 @@ public class Activity_Dashboard extends AppCompatActivity {
 
                 return v;
             }
-        });
+
+            @Override
+            public int getCount() {
+                return super.getCount();
+            }
+        };
+
+        constarinLayoutLottie.setVisibility(View.VISIBLE);
+        constraintLayoutLottieLupa.setVisibility(View.GONE);
+        centros.setAdapter(adapter);
+
         centros.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-               centro = centros.getSelectedItem().toString();
-               ceco = Integer.parseInt(listaidCentros.get(position));
-               if(con_invent) antenas_local_db.fillDBdata(Activity_Dashboard.this,config.getIP(getApplicationContext()),config.getRec(getApplicationContext()),ceco);
+                centro = centros.getSelectedItem().toString();
+                ceco = Integer.parseInt(listaidCentros.get(position));
+                if(con_invent) antenas_local_db.fillDBdata(Activity_Dashboard.this,config.getIP(getApplicationContext()),config.getRec(getApplicationContext()),ceco);
             }
 
             @Override
@@ -97,7 +132,4 @@ public class Activity_Dashboard extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

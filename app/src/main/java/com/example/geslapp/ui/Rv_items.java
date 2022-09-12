@@ -1,16 +1,13 @@
 package com.example.geslapp.ui;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
@@ -25,32 +22,30 @@ import com.example.geslapp.core.databaseInvent.Inventario_Local_DB;
 import com.example.geslapp.core.databaseInvent.Material_Invent_Local_DB;
 import com.example.geslapp.core.uploads.Upload_Etqs_Invent;
 import com.example.geslapp.core.uploads.Upload_material_invent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 
 public class Rv_items extends AppCompatActivity {
-    private RecyclerView  rvitem;
-    private RecyclerView.Adapter rvadapteritem;
-    private RecyclerView.LayoutManager layoutManageritem;
+
     Button butupload,butback;
     private static int id_invent;
     EditText edtmade;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rv_items);
         id_invent = getIntent().getIntExtra("id_invent",-1);
-        rvitem = findViewById(R.id.rvItems);
+        RecyclerView rvitem = findViewById(R.id.rvItems);
         rvitem.setHasFixedSize(true);
         ArrayList<Material_invent> listaMaterial = fillMaterial();
         Material_Invent_Local_DB material_invent_local_db = new Material_Invent_Local_DB(getApplicationContext());
         material_invent_local_db.firstInsert(id_invent);
-        layoutManageritem = new LinearLayoutManager(getApplicationContext());
+        RecyclerView.LayoutManager layoutManageritem = new LinearLayoutManager(getApplicationContext());
         rvitem.setLayoutManager(layoutManageritem);
-        rvadapteritem = new RvItemAdapter(getApplicationContext(),listaMaterial,id_invent,Rv_items.this);
+        RecyclerView.Adapter<RvItemAdapter.MyViewHolder> rvadapteritem = new RvItemAdapter(getApplicationContext(), listaMaterial, id_invent, Rv_items.this);
         edtmade = findViewById(R.id.edtmadeitems);
         rvitem.setAdapter(rvadapteritem);
         butupload = findViewById(R.id.butUploadItems);
@@ -59,121 +54,89 @@ public class Rv_items extends AppCompatActivity {
         edtmade.setText(inventario_local_db.getMade(id_invent));
         butback = findViewById(R.id.butbackitems);
 
-        butback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               onBackPressed();
+        butback.setOnClickListener(v -> onBackPressed());
+
+        //end ONCLICK
+        butupload.setOnClickListener(v -> {
+            ConfigPreferences config = new ConfigPreferences();
+            String IP = config.getIP(getApplicationContext());
+            String REC = config.getRec(getApplicationContext());
+            Inventario_Local_DB inventario_local_db1 = new Inventario_Local_DB(getApplicationContext());
+            inventario_local_db1.updateState(id_invent);
+            String made = edtmade.getText().toString();
+
+            ArrayList<Material_invent> listaSendItems = new ArrayList<>();
+
+            for(int i=0;i<listaMaterial.size();i++) {
+
+                String itemname = listaMaterial.get(i).getDbName();
+                Material_invent material_invent = material_invent_local_db.getAllData(id_invent,itemname);
+                listaSendItems.add(material_invent);
             }
-        });
 
-        butupload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ConfigPreferences config = new ConfigPreferences();
-                String IP = config.getIP(getApplicationContext());
-                String REC = config.getRec(getApplicationContext());
-                Inventario_Local_DB inventario_local_db = new Inventario_Local_DB(getApplicationContext());
-                inventario_local_db.updateState(id_invent);
-                String made = edtmade.getText().toString();
+            for(int i = 0; i<listaSendItems.size();i++) {
 
-                ArrayList<Material_invent> listaSendItems = new ArrayList<>();
-                for(int i=0;i<listaMaterial.size();i++)
-                {
-                    String itemname = listaMaterial.get(i).getDbName();
-                    Material_invent material_invent = material_invent_local_db.getAllData(id_invent,itemname);
-                    listaSendItems.add(material_invent);
-                }
+                Response.Listener<String> respoListener = response -> {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        int success = jsonResponse.getInt("success");
+                        String request = jsonResponse.getString("message");
 
-                for(int i = 0; i<listaSendItems.size();i++)
-                {
+                        if (success == 1) {
+                           // Toast.makeText(getApplicationContext(),"Insert realizado exitosamente " +request, Toast.LENGTH_SHORT).show();
 
-                    Response.Listener<String> respoListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-
-                                JSONObject jsonResponse = new JSONObject(response);
-                                int success = jsonResponse.getInt("success");
-                                String request = jsonResponse.getString("message");
-
-                                if (success == 1) {
-                                   // Toast.makeText(getApplicationContext(),"Insert realizado exitosamente " +request, Toast.LENGTH_SHORT).show();
-
-
-                                } else {
-                                    Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ITEMS"+response, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getApplicationContext(),request, Toast.LENGTH_SHORT).show();
-
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-
-                                Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ITEMS"+response, Toast.LENGTH_SHORT).show();
-
-                            }
-
+                        } else {
+                            Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ITEMS"+response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),request, Toast.LENGTH_SHORT).show();
                         }
-                    };
-                    Upload_material_invent upload_material_invent = new Upload_material_invent(respoListener,listaSendItems.get(i),IP,REC,id_invent,made);
-                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                    requestQueue.add(upload_material_invent);
 
-                }//END FOR
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ITEMS"+response, Toast.LENGTH_SHORT).show();
+                    }
+                };
 
-                //ETIQUETAS-------------------------------------------------------------------------
-                Etqs_Invent_Local_DB etqs_invent_local_db = new Etqs_Invent_Local_DB(getApplicationContext());
-                ArrayList<Etqs_invent> listaEtqs = new ArrayList<>();
-                listaEtqs.addAll(etqs_invent_local_db.fillArray(id_invent));
+                Upload_material_invent upload_material_invent = new Upload_material_invent(respoListener,listaSendItems.get(i),IP,REC,id_invent,made);
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(upload_material_invent);
 
-                for(int i = 0; i<listaEtqs.size();i++)
-                {
+            }//END FOR
 
-                    Response.Listener<String> respoListener = new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
+            //ETIQUETAS-------------------------------------------------------------------------
+            Etqs_Invent_Local_DB etqs_invent_local_db = new Etqs_Invent_Local_DB(getApplicationContext());
+            ArrayList<Etqs_invent> listaEtqs = new ArrayList<>();
+            listaEtqs.addAll(etqs_invent_local_db.fillArray(id_invent, Rv_items.this));
 
-                                JSONObject jsonResponse = new JSONObject(response);
-                                int success = jsonResponse.getInt("success");
-                                String request = jsonResponse.getString("message");
+            for(int i = 0; i<listaEtqs.size();i++) {
 
-                                if (success == 1) {
-                                    //Toast.makeText(getApplicationContext(),"Insert realizado exitosamente-ETQS " +request, Toast.LENGTH_SHORT).show();
+                Response.Listener<String> respoListener = response -> {
+                    try {
+                        JSONObject jsonResponse = new JSONObject(response);
+                        int success = jsonResponse.getInt("success");
+                        String request = jsonResponse.getString("message");
 
+                        if (success == 1) {
+                            //Toast.makeText(getApplicationContext(),"Insert realizado exitosamente-ETQS " +request, Toast.LENGTH_SHORT).show();
 
-                                } else {
-                                    Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ETQ" +response, Toast.LENGTH_SHORT).show();
-                                    Toast.makeText(getApplicationContext(),request, Toast.LENGTH_SHORT).show();
-
-
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-
-                                Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ETQ" +response, Toast.LENGTH_SHORT).show();
-
-                            }
-
+                        } else {
+                            Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ETQ" +response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(),request, Toast.LENGTH_SHORT).show();
                         }
-                    };
-                    Upload_Etqs_Invent upload_etqs_invent = new Upload_Etqs_Invent(respoListener,listaEtqs.get(i),IP,REC,id_invent,getApplicationContext());
-                    RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-                    requestQueue.add(upload_etqs_invent);
 
-                }//END FOR
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                        Toast.makeText(getApplicationContext(),"Ha currido un problema, volver a intentar-ETQ" +response, Toast.LENGTH_SHORT).show();
+                    }
+                };
+                Upload_Etqs_Invent upload_etqs_invent = new Upload_Etqs_Invent(respoListener,listaEtqs.get(i),IP,REC,id_invent,getApplicationContext());
+                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                requestQueue.add(upload_etqs_invent);
 
-                Fotos_Invent_Local_DB fotos_invent_local_db = new Fotos_Invent_Local_DB(getApplicationContext());
-                fotos_invent_local_db.getAllFotos(id_invent,getApplicationContext(),Rv_items.this);
-                Toast.makeText(Rv_items.this, "Se han subido los datos", Toast.LENGTH_SHORT).show();
+            }//END FOR
 
-
-
-
-
-
-
-            }//end ONCLICK
+            Fotos_Invent_Local_DB fotos_invent_local_db = new Fotos_Invent_Local_DB(getApplicationContext());
+            fotos_invent_local_db.getAllFotos(id_invent,getApplicationContext(),Rv_items.this);
+            Toast.makeText(Rv_items.this, "Se han subido los datos", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -183,19 +146,11 @@ public class Rv_items extends AppCompatActivity {
         if(estado.equals("Abierto")) {
 
            butupload.setEnabled(false);
-
         }
-
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.zoom_back_in, R.anim.zoom_back_out);
-    }
+    public ArrayList<Material_invent> fillMaterial() {
 
-    public ArrayList<Material_invent> fillMaterial()
-    {
         ArrayList<Material_invent> listaMaterial = new ArrayList<>();
         Material_invent clip_liso = new Material_invent("Clip liso para perfiles","clip_liso","","","","");
         listaMaterial.add(clip_liso);
@@ -226,7 +181,11 @@ public class Rv_items extends AppCompatActivity {
         Material_invent eleva_plastic = new Material_invent("Elevadores plásticos","eleva_plastic","","","","");
         listaMaterial.add(eleva_plastic);
         return listaMaterial;
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.zoom_back_in, R.anim.zoom_back_out);
     }
 }

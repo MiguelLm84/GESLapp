@@ -12,12 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-
-
-
     <uses-feature android:name="android.hardware.nfc"/>
-
-
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
@@ -44,13 +39,11 @@
             android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
-
-
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"></action>
-                <action android:name="android.nfc.action.TECH_DISCOVERED"></action>
-                <action android:name="android.nfc.action.TAG_DISCOVERED"></action>
-                <action android:name="android.nfc.NdefMessage"></action>
-                <data android:mimeType="text/plain"></data>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+                <action android:name="android.nfc.action.TAG_DISCOVERED" />
+                <action android:name="android.nfc.NdefMessage" />
+                <data android:mimeType="text/plain" />
                 <data android:mimeType="application/your.uniqueapp.nfc"/>
 
             </intent-filter>
@@ -60,15 +53,19 @@
         <activity android:name=".ui.CentroActivoActivity" />
         <activity android:name=".ui.RegistroActivity" />
         <activity android:name=".ui.CajasActivity" />
-        <activity android:name=".ui.EstadoEtq"></activity>
-        <activity android:name=".ui.RecogidasActivity"></activity>
-        <activity android:name=".core.camara.CamaraX"></activity>
-        <activity android:name=".ui.ActivityCarga"></activity>
+        <activity android:name=".ui.EstadoEtq" />
+        <activity android:name=".ui.RecogidasActivity" />
+        <activity android:name=".core.camara.CamaraX" />
+        <activity android:name=".ui.ActivityCarga" />
 
-        <activity android:name=".ui.Rv_etiquetas" android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".ui.Rv_items" android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".ui.Rv_etiquetas"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.Rv_items"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait" />
 
         <activity android:name=".ui.EtiquetasActivity"
             android:exported="true"><intent-filter>
@@ -93,7 +90,7 @@
             android:windowSoftInputMode="adjustPan">
 
         </activity>
-        <activity android:name=".ui.Activity_Dashboard"></activity>
+        <activity android:name=".ui.Activity_Dashboard" />
         <activity
             android:name=".core.camara.CaptureAct"
             android:screenOrientation="fullSensor"
@@ -125,7 +122,5 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
     </application>
-
-
 
 </manifest>

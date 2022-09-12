@@ -2,23 +2,22 @@ package com.example.geslapp.core.clases;
 
 import android.os.AsyncTask;
 import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 public class CheckConnection extends AsyncTask<String , Void ,String> {
+
        static String server_response;
 
         @Override
         protected String doInBackground(String... strings) {
 
                 URL url;
-                HttpURLConnection urlConnection = null;
+                HttpURLConnection urlConnection;
 
                 try {
                         url = new URL(strings[0]);
@@ -32,13 +31,11 @@ public class CheckConnection extends AsyncTask<String , Void ,String> {
 
                         }
 
-                } catch (MalformedURLException e) {
-                        e.printStackTrace();
                 } catch (IOException e) {
                         e.printStackTrace();
                 }
 
-                return null;
+            return null;
         }
 
         @Override
@@ -55,10 +52,10 @@ public class CheckConnection extends AsyncTask<String , Void ,String> {
 
         private String readStream(InputStream in) {
                 BufferedReader reader = null;
-                StringBuffer response = new StringBuffer();
+                StringBuilder response = new StringBuilder();
                 try {
                         reader = new BufferedReader(new InputStreamReader(in));
-                        String line = "";
+                        String line;
                         while ((line = reader.readLine()) != null) {
                                 response.append(line);
                         }
@@ -75,10 +72,11 @@ public class CheckConnection extends AsyncTask<String , Void ,String> {
                 }
                 return response.toString();
         }
-        public String getServerResponse()
-        {
+
+        public String getServerResponse() {
                 return server_response;
         }
+
         public void setServer_response(){server_response = null;}
 
 

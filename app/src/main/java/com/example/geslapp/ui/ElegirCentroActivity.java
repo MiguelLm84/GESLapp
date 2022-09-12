@@ -3,11 +3,6 @@ package com.example.geslapp.ui;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,9 +12,9 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.transition.Explode;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,19 +28,22 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import com.example.geslapp.R;
 import com.example.geslapp.core.clases.CheckConnection;
 import com.example.geslapp.core.clases.ConfigPreferences;
 import com.example.geslapp.core.clases.Update;
 import com.example.geslapp.core.database.Cajas_Local_DB;
 import com.example.geslapp.core.database.Login_Local_DB;
-
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+
 public class ElegirCentroActivity extends AppCompatActivity {
+
     private static final  int PERMISSION_REQUEST_CODE = 200;
     Spinner centros;
     Button btComenzar, butmenu;
@@ -55,7 +53,7 @@ public class ElegirCentroActivity extends AppCompatActivity {
     String username;
     TextView txtuser, txtversion;
     private String IP, REC;
-    private ConfigPreferences config = new ConfigPreferences();
+    private final ConfigPreferences config = new ConfigPreferences();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +91,7 @@ public class ElegirCentroActivity extends AppCompatActivity {
                 return v;
             }
         });
+
         centros.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -108,7 +107,6 @@ public class ElegirCentroActivity extends AppCompatActivity {
                 String dominio = String.valueOf(listaDominios.get(position));
                 System.out.println(dominio);
                 intent.putExtra("dominio", dominio);
-
             }
 
             @Override
@@ -118,42 +116,35 @@ public class ElegirCentroActivity extends AppCompatActivity {
         });
 
 
-        btComenzar.setOnClickListener(new View.OnClickListener() {
+        btComenzar.setOnClickListener(view -> {
 
-            @Override
-            public void onClick(View view) {
-                new CheckConnection().cancel(true);
-                new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                String serverResponse = new CheckConnection().getServerResponse();
+            new CheckConnection().cancel(true);
+            new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
+            Explode explode = new Explode();
+            explode.setDuration(1000);
 
-                if (serverResponse!= null) {
-                    intent.putExtra("username",username);
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.zoom_back_in, R.anim.zoom_back_out);
-                }else
-                {
-                    Toast.makeText(getApplicationContext(),"NO HAY CONEXIÓN CON EL SERVIDOR", Toast.LENGTH_SHORT).show();
-                }
-            }
+            /*try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+            String serverResponse = new CheckConnection().getServerResponse();
 
-        });
+            if (serverResponse!= null) {
+                intent.putExtra("username",username);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-        butmenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showdialog();
+            } else {
+                Toast.makeText(getApplicationContext(),"NO HAY CONEXIÓN CON EL SERVIDOR", Toast.LENGTH_SHORT).show();
             }
         });
 
-
+        butmenu.setOnClickListener(v -> showdialog());
     }
 
     private void showdialog() {
+
         IP = config.getIP(getApplicationContext());
         REC = config.getRec(getApplicationContext());
         final Dialog dialog = new Dialog(this);
@@ -167,98 +158,79 @@ public class ElegirCentroActivity extends AppCompatActivity {
         LinearLayout actulayout = dialog.findViewById(R.id.layoutactu);
         TextView txtlastupdate = dialog.findViewById(R.id.txtVapp);
         txtvtables.setText(config.getVTables(getApplicationContext()));
-        actulayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startCheckConnection();
-                if(config.getCon(getApplicationContext())) {
 
-                    if (checkPermission()) {
-                        new CheckConnection().cancel(true);
-                        Update atualizaApp = new Update();
-                        atualizaApp.setContext(ElegirCentroActivity.this);
-                        atualizaApp.execute("http://192.180.1.50/gesl/app/app-release.apk");
-                        boolean updated = atualizaApp.getUpdated();
-                        try {
-                            Thread.sleep(2000);
-                            startCheckConnection();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        if(updated)
-                        {
-                            config.setLastAppUpdate(getApplicationContext());
-                            txtlastupdate.setText(config.getLastAppUpdate(getApplicationContext()));
-                        }
-                        else
-                        {
-                            txtlastupdate.setText(config.getLastAppUpdate(getApplicationContext()));
-                        }
+        actulayout.setOnClickListener(v -> {
+            startCheckConnection();
+            if(config.getCon(getApplicationContext())) {
 
-
-                    } else {
-                        requestPermission();
-                    }//end else
-                }else
-                {
+                if (checkPermission()) {
                     new CheckConnection().cancel(true);
-                    Toast.makeText(ElegirCentroActivity.this, "No hay conexión con el host", Toast.LENGTH_SHORT).show();
-                }
+                    Update atualizaApp = new Update();
+                    atualizaApp.setContext(ElegirCentroActivity.this);
+                    atualizaApp.execute("http://192.180.1.50/gesl/app/app-release.apk");
+                    boolean updated = atualizaApp.getUpdated();
+                    try {
+                        Thread.sleep(2000);
+                        startCheckConnection();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if(updated) {
+                        config.setLastAppUpdate(getApplicationContext());
+                    }
+                    txtlastupdate.setText(config.getLastAppUpdate(getApplicationContext()));
 
-            }
-        });
-        infolayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Uri uri = Uri.parse("http://asysgon.com");
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-                startActivity(intent);
-            }
-        });
-        rechargelayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                String serverResponse = new CheckConnection().getServerResponse();
+                } else {
+                    requestPermission();
+                }//end else
 
-                if (serverResponse!= null) {
-                    new CheckConnection().setServer_response();
-                    Cajas_Local_DB cajas_local_db = new Cajas_Local_DB(getApplicationContext());
-                    Login_Local_DB login_local_db = new Login_Local_DB(getApplicationContext());
-                    cajas_local_db.deleteRows();
-                    cajas_local_db.getDBCajas(getApplicationContext(),IP,REC);
-                    login_local_db.deleteRows();
-                    login_local_db.getDBUser(getApplicationContext());
-                    config.setVTables(getApplicationContext());
-                    txtvtables.setText(config.getVTables(getApplicationContext()));
-                    Toast.makeText(getApplicationContext(),"LAS TABLAS HAN SIDO CARGADAS",Toast.LENGTH_SHORT).show();
+            } else {
+                new CheckConnection().cancel(true);
+                Toast.makeText(ElegirCentroActivity.this, "No hay conexión con el host", Toast.LENGTH_SHORT).show();
+            }
 
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(),"NO HAY CONEXION CON EL SERVIDOR",Toast.LENGTH_SHORT).show();
-                }
+        });
+        infolayout.setOnClickListener(v -> {
+
+            Uri uri = Uri.parse("http://asysgon.com");
+            Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+            startActivity(intent);
+        });
+        rechargelayout.setOnClickListener(v -> {
+
+            new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
+            Explode explode = new Explode();
+            explode.setDuration(1000);
+
+            /*try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }*/
+            String serverResponse = new CheckConnection().getServerResponse();
+
+            if (serverResponse!= null) {
+                new CheckConnection().setServer_response();
+                Cajas_Local_DB cajas_local_db = new Cajas_Local_DB(getApplicationContext());
+                Login_Local_DB login_local_db = new Login_Local_DB(getApplicationContext());
+                cajas_local_db.deleteRows();
+                cajas_local_db.getDBCajas(getApplicationContext(),IP,REC);
+                login_local_db.deleteRows();
+                login_local_db.getDBUser(getApplicationContext());
+                config.setVTables(getApplicationContext());
+                txtvtables.setText(config.getVTables(getApplicationContext()));
+                Toast.makeText(getApplicationContext(),"LAS TABLAS HAN SIDO CARGADAS",Toast.LENGTH_SHORT).show();
+
+            } else {
+                Toast.makeText(getApplicationContext(),"NO HAY CONEXION CON EL SERVIDOR",Toast.LENGTH_SHORT).show();
             }
         });
-        configlayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showconfingdialog();
-            }
-        });
-        exitlayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent t = new Intent(ElegirCentroActivity.this, LoginActivity.class);
-                startActivity(t);
-                overridePendingTransition(R.anim.zoom_back_in,R.anim.zoom_back_out);
-                finish();
-            }
+        configlayout.setOnClickListener(v -> showconfingdialog());
+        exitlayout.setOnClickListener(v -> {
+            Intent t = new Intent(ElegirCentroActivity.this, LoginActivity.class);
+            startActivity(t);
+            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            finish();
         });
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -268,6 +240,7 @@ public class ElegirCentroActivity extends AppCompatActivity {
 
     }
     private void showconfingdialog() {
+
         final Dialog dialog = new Dialog(ElegirCentroActivity.this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.bottomconfig);
@@ -277,56 +250,48 @@ public class ElegirCentroActivity extends AppCompatActivity {
         edtip.setText(IP);
         edtrec.setText(REC);
         TextView txtversion = dialog.findViewById(R.id.txtVconfig);
-        txtversion.setText(version+"");
+        txtversion.setText(version);
 
-        butsave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String ip = edtip.getText().toString();
-                String rec = edtrec.getText().toString();
-                if(isValidIPAddress(ip))
-                {
+        butsave.setOnClickListener(v -> {
+            String ip = edtip.getText().toString();
+            String rec = edtrec.getText().toString();
 
-                    IP = ip;
-                    REC = rec;
-                    new CheckConnection().cancel(true);
-                    new CheckConnection().execute("http://"+ip+"/gesl/"+rec+"/");
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    String serverResponse = new CheckConnection().getServerResponse();
+            if(isValidIPAddress(ip)) {
+                IP = ip;
+                REC = rec;
+                new CheckConnection().cancel(true);
+                new CheckConnection().execute("http://"+ip+"/gesl/"+rec+"/");
+                Explode explode = new Explode();
+                explode.setDuration(1000);
 
-                    if (serverResponse == null) {
+                /*try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }*/
+                String serverResponse = new CheckConnection().getServerResponse();
 
-                        Toast.makeText(ElegirCentroActivity.this, "No hay conexión con el host", Toast.LENGTH_SHORT).show();
-
-
-
-                    }
-                    else {
-                        config.createPreferences(getApplicationContext(),ip,rec);
-                        Toast.makeText(ElegirCentroActivity.this, "Configuración guardada", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
+                if (serverResponse == null) {
+                    Toast.makeText(ElegirCentroActivity.this, "No hay conexión con el host", Toast.LENGTH_SHORT).show();
                 }
-                else Toast.makeText(ElegirCentroActivity.this, "Datos erróneos", Toast.LENGTH_SHORT).show();
-
+                else {
+                    config.createPreferences(getApplicationContext(),ip,rec);
+                    Toast.makeText(ElegirCentroActivity.this, "Configuración guardada", Toast.LENGTH_SHORT).show();
+                    dialog.dismiss();
+                }
             }
-        });
+            else Toast.makeText(ElegirCentroActivity.this, "Datos erróneos", Toast.LENGTH_SHORT).show();
 
+        });
 
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         dialog.getWindow().setGravity(Gravity.BOTTOM);
         dialog.show();
-
     }
 
-    public static boolean isValidIPAddress(String ip)
-    {
+    public static boolean isValidIPAddress(String ip) {
 
         String zeroTo255
                 = "(\\d{1,2}|(0|1)\\"
@@ -350,51 +315,44 @@ public class ElegirCentroActivity extends AppCompatActivity {
     }
 
     private void startCheckConnection() {
+
         new Update().cancel(true);
         new CheckConnection().execute("http://"+IP+"/gesl/"+REC+"/");
-        try {
+        Explode explode = new Explode();
+        explode.setDuration(1000);
+
+        /*try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-        }
+        }*/
         String serverResponse = new CheckConnection().getServerResponse();
 
         if (serverResponse == null) {
             config.setCon(getApplicationContext(),false);
 
-        }
-        else
-        {
-
+        } else {
             config.setLastCon(getApplicationContext());
-
             config.setCon(getApplicationContext(),true);
             new CheckConnection().setServer_response();
             config.setVTables(getApplicationContext());
-
         }
 
-
-
-        if(config.getCon(getApplicationContext()))
-        {
+        if(config.getCon(getApplicationContext())) {
             Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.online);
-
             imgcon.setImageBitmap(bitmap);
-        }
-        else
-        {
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.offline);
 
+        } else {
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.offline);
             imgcon.setImageBitmap(bitmap);
         }
     }
+
     protected void onResume() {
         super.onResume();
         startCheckConnection();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private boolean checkPermission() {
         int result = ContextCompat.checkSelfPermission(getApplicationContext(), WRITE_EXTERNAL_STORAGE);
         int result1 = ContextCompat.checkSelfPermission(getApplicationContext(), READ_EXTERNAL_STORAGE);
@@ -402,14 +360,13 @@ public class ElegirCentroActivity extends AppCompatActivity {
         return result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void requestPermission() {
         ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE, READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        overridePendingTransition(R.anim.zoom_back_in, R.anim.zoom_back_out);
-
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

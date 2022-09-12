@@ -14,11 +14,50 @@
         android:background="?attr/actionModeCloseDrawable"
         android:backgroundTint="#505050"
         android:clickable="true"
+        android:focusable="true"
         android:tint="#505050"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:rippleColor="#100A0A"
-        app:srcCompat="?attr/actionModeCloseDrawable" />
+        app:srcCompat="?attr/actionModeCloseDrawable"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutInventarioMaterial"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rvmaterialinvent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rvmaterialinvent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lootieAnimationViewInventarioMaterial"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/data"
+            tools:ignore="ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/tvNoHayInventarios"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_no_hay_informes"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="@+id/lootieAnimationViewInventarioMaterial"
+            app:layout_constraintStart_toStartOf="@+id/lootieAnimationViewInventarioMaterial"
+            app:layout_constraintTop_toBottomOf="@+id/lootieAnimationViewInventarioMaterial" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvmaterialinvent"
@@ -79,10 +118,12 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/ic_flecha"
         android:clickable="true"
+        android:focusable="true"
         android:tint="#000000"
         app:backgroundTint="#505050"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_send" />
+        app:srcCompat="@android:drawable/ic_menu_send"
+        tools:ignore="SpeakableTextPresentCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

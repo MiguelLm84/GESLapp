@@ -64,6 +64,11 @@
     <string name="hintmadeGeneral">Realizado por:</string>
     <string name="txtcargando">Cargando datos espere</string>
     <string name="descargar_inventarios">DESCARGAR INVENTARIOS</string>
-
+    <string name="texto_lottie">Selecciona un centro para mostrar los informes</string>
+    <string name="txt_lupa">Pulse en la lupa para ver los informes disponibles</string>
+    <string name="txt_no_hay_informes">No se han encontrado informes</string>
+    <string name="txt_no_hay_inventarios_de_materiales">No se han encontrado inventarios</string>
+    <string name="prompt">Seleccione un centro</string>
+    <string name="todo">TODO</string>
 
 </resources>

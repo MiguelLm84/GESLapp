@@ -17,7 +17,8 @@
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_gesl" />
+        app:srcCompat="@drawable/logo_gesl"
+        android:contentDescription="@string/todo" />
 
     <Button
         android:id="@+id/btnProcesoPorLotes"
@@ -122,7 +123,7 @@
             android:gravity="center"
             android:padding="4dp"
             android:textColor="#FFFFFF"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -137,7 +138,8 @@
             android:backgroundTint="#AFAFAF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         <ImageView
             android:id="@+id/imgcon"
@@ -145,6 +147,7 @@
             android:layout_height="38dp"
             android:layout_marginStart="112dp"
             android:backgroundTint="#A8A7A7"
+            android:contentDescription="@string/todo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

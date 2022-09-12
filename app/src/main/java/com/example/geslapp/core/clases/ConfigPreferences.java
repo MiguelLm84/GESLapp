@@ -84,8 +84,7 @@ public class ConfigPreferences {
         editor.apply();
     }
 
-    public boolean getCon(Context  context)
-    {
+    public boolean getCon(Context  context) {
         SharedPreferences sp = context.getSharedPreferences("CONFIG",Context.MODE_PRIVATE);
         return sp.getBoolean("online",false);
     }

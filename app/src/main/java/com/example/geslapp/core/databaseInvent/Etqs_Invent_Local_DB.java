@@ -9,24 +9,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.widget.Toast;
-
 import androidx.annotation.Nullable;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.Volley;
 import com.example.geslapp.core.clases.ConfigPreferences;
 import com.example.geslapp.core.clases.Etqs_invent;
-import com.example.geslapp.core.requests.EstadoInformeRequest;
 import com.example.geslapp.core.requests.EtqInventRequest;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Objects;
+
 
 public class Etqs_Invent_Local_DB extends SQLiteOpenHelper {
 
@@ -48,12 +44,11 @@ public class Etqs_Invent_Local_DB extends SQLiteOpenHelper {
     private static final String DESASIG_CAJAS_GESL = "desasig_cajas_gesl";
     private static final String DESASIG_CAJAS = "desasig_cajas";
     private static final String DESASIG_ETQ = "desasig_etq";
-    private static int[] pos = {0};
+    private static final int[] pos = {0};
     private static int lastId = 0;
 
     public Etqs_Invent_Local_DB(@Nullable Context context) {
         super(context, TABLE_NAME, null, DATABASE_VERSION);
-
     }
 
     @Override
@@ -75,17 +70,18 @@ public class Etqs_Invent_Local_DB extends SQLiteOpenHelper {
                 DESASIG_CAJAS +" VARCHAR,"+
                 DESASIG_CAJAS_GESL + " VARHCAR,"+
                 DESASIG_ETQ + " VARCHAR)");
-
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
-
     }
 
-    public void saveData(int id_invent,String retircajas, String retiretq, String ticajas, String tietq, String asiggesl, String asigcajas, String asigetq, String desasigcajas, String desasigets, String desasiggesl,int position) {
+    public void saveData(int id_invent,String retircajas, String retiretq, String ticajas,
+                         String tietq, String asiggesl, String asigcajas, String asigetq,
+                         String desasigcajas, String desasigets, String desasiggesl,int position) {
 
     SQLiteDatabase db = this.getWritableDatabase();
     ContentValues contentValues = new ContentValues();
@@ -100,7 +96,6 @@ public class Etqs_Invent_Local_DB extends SQLiteOpenHelper {
     contentValues.put("desasig_etq",desasigets);
     contentValues.put("desasig_cajas_gesl",desasiggesl);
     db.update(TABLE_NAME,contentValues,"id_invent = ? AND position = ?",new String[]{String.valueOf(id_invent),String.valueOf(position)});
-
     }
 
     public void updateFoto(int position, String name) {
@@ -108,10 +103,10 @@ public class Etqs_Invent_Local_DB extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         contentValues.put("foto_etq",name);
         db.update(TABLE_NAME,contentValues,"position = ?",new String[]{String.valueOf(position)});
-
     }
-    public int getEtqsCount()
-    {
+
+    public int getEtqsCount() {
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         Cursor c = db.rawQuery("SELECT id FROM "+ TABLE_NAME,new String[]{});
@@ -123,99 +118,84 @@ public class Etqs_Invent_Local_DB extends SQLiteOpenHelper {
     }
 
     public Bitmap getFoto(int id_invent, Context context, int pos) {
+
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT foto_etq FROM etqs_invent WHERE id_invent = ? AND position = ?",new String[]{String.valueOf(id_invent),String.valueOf(pos)});
-        if(c.moveToFirst())
-        {
-            if(c.getString(0) == null || c.getString(0).equals(""))
-            {
+
+        if(c.moveToFirst()) {
+            if(c.getString(0) == null || c.getString(0).equals("")) {
                 return null;
             }
             File image = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), c.getString(0));
             Bitmap bmp = BitmapFactory.decodeFile(image.getPath());
 
             return bmp;
-        }
-        else
-        {
+
+        } else {
             return null;
         }
-
-
     }
 
+    public void fillServerData(Context context) {
 
-    public void fillServerData(Context context)
-    {
         final boolean[] insert = {false};
         SQLiteDatabase db = this.getWritableDatabase();
         SQLiteDatabase db1 = this.getReadableDatabase();
         //onUpgrade(db,1,1);
         pos[0] = 0;
-        Response.Listener<String> LISTENER = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
+        Response.Listener<String> LISTENER = response -> {
 
+            try {
+                JSONObject jsonObject= new JSONObject(response);
+                int success = jsonObject.getInt("success");
+                String request = jsonObject.getString("message");
 
-                try {
-                    JSONObject jsonObject= new JSONObject(response);
-                    int success = jsonObject.getInt("success");
-                    String request = jsonObject.getString("message");
+                if (success == 1) {
+                    //Toast.makeText(context, "Insert realizado exitosamente-ETQS", Toast.LENGTH_SHORT).show();
+                    JSONArray jsonArray = jsonObject.getJSONArray("array");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject1 = jsonArray.getJSONObject(i);
 
-                    if (success == 1) {
-                        //Toast.makeText(context, "Insert realizado exitosamente-ETQS", Toast.LENGTH_SHORT).show();
-                        JSONArray jsonArray = jsonObject.getJSONArray("array");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-
-                            int id = jsonObject1.getInt("id");
-                            int id_invent = jsonObject1.getInt("id_inventario");
-                            if(lastId!=id_invent){
-                                lastId = id_invent;
-                                pos[0] = 0;
-                            }
-
-                            int id_modelo = jsonObject1.getInt("id_modelo");
-
-                            ContentValues contentValues = new ContentValues();
-
-                            contentValues.put("id",id);
-                            contentValues.put("id_invent",id_invent);
-                            contentValues.put("position",pos[0]);
-                            Modelos_Etq_Local_DB modelos_etq_local_db = new Modelos_Etq_Local_DB(context);
-                            String modelo = modelos_etq_local_db.getModelo(id_modelo);
-                            contentValues.put("modelo_etq",modelo);
-                            Cursor c = db1.rawQuery("SELECT id FROM etqs_invent WHERE id_invent = ? AND position = ?",new String[]{String.valueOf(id_invent),String.valueOf(pos[0])});
-
-                            if(c.moveToFirst()) insert[0] = false;
-                            else insert[0] = true;
-
-
-
-                            if(insert[0])
-                            {
-                                db.insert(TABLE_NAME, null, contentValues);
-                                //Toast.makeText(context, "Datos insert", Toast.LENGTH_SHORT).show();
-                            }else
-                            {
-                                db.update(TABLE_NAME,contentValues,"id_invent = ? AND position = ?",new String[]{String.valueOf(id_invent),String.valueOf(pos[0])});
-                                //Toast.makeText(context, "datos updated", Toast.LENGTH_SHORT).show();
-                            }
-                            pos[0]++;
-
-
+                        int id = jsonObject1.getInt("id");
+                        int id_invent = jsonObject1.getInt("id_inventario");
+                        if(lastId!=id_invent){
+                            lastId = id_invent;
+                            pos[0] = 0;
                         }
-                    }
-                    else
-                    {
-                        Toast.makeText(context, request, Toast.LENGTH_SHORT).show();
+
+                        int id_modelo = jsonObject1.getInt("id_modelo");
+
+                        ContentValues contentValues = new ContentValues();
+
+                        contentValues.put("id",id);
+                        contentValues.put("id_invent",id_invent);
+                        contentValues.put("position",pos[0]);
+                        Modelos_Etq_Local_DB modelos_etq_local_db = new Modelos_Etq_Local_DB(context);
+                        String modelo = modelos_etq_local_db.getModelo(id_modelo);
+                        contentValues.put("modelo_etq",modelo);
+                        Cursor c = db1.rawQuery("SELECT id FROM etqs_invent WHERE id_invent = ? AND position = ?",new String[]{String.valueOf(id_invent),String.valueOf(pos[0])});
+
+                        if(c.moveToFirst()) insert[0] = false;
+                        else insert[0] = true;
+
+                        if(insert[0]) {
+
+                            db.insert(TABLE_NAME, null, contentValues);
+                            //Toast.makeText(context, "Datos insert", Toast.LENGTH_SHORT).show();
+
+                        } else {
+                            db.update(TABLE_NAME,contentValues,"id_invent = ? AND position = ?",new String[]{String.valueOf(id_invent),String.valueOf(pos[0])});
+                            //Toast.makeText(context, "datos updated", Toast.LENGTH_SHORT).show();
+                        }
+                        pos[0]++;
                     }
 
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                } else {
+                    Toast.makeText(context, request, Toast.LENGTH_SHORT).show();
                 }
 
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         };
         String IP = new ConfigPreferences().getIP(context);
@@ -225,29 +205,40 @@ public class Etqs_Invent_Local_DB extends SQLiteOpenHelper {
         requestQueue.add(estadoInformeRequest);
     }//END FILLDATA
 
-public ArrayList<Etqs_invent> fillArray(int id_invent){
-        ArrayList<Etqs_invent> listaEtqs = new ArrayList();
+    public ArrayList<Etqs_invent> fillArray(int id_invent, Context context){
+
+        String idInvent = String.valueOf(id_invent);
+        ArrayList<Etqs_invent> listaEtqs = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        int i = 0;
+        //int i = 0;
 
-        Cursor c = db.rawQuery("SELECT * FROM etqs_invent WHERE id_invent = ? ORDER BY position",new String[]{String.valueOf(id_invent)});
-        if(c.moveToFirst())
-        {
-            do {
+        Cursor c = db.rawQuery("SELECT * FROM etqs_invent WHERE id_invent = ? " +
+                "ORDER BY position",new String[]{idInvent});
 
+        if(c != null && c.getCount() != 0) {
+            if(c.moveToFirst()) {
+                do {
+                    listaEtqs.add(new Etqs_invent(c.getInt(0),c.getInt(1),
+                            c.getString(2),c.getInt(3), c.getString(4),
+                            c.getString(5),c.getString(6),c.getString(7),
+                            c.getString(8),c.getString(10),c.getString(9),
+                            c.getString(11),c.getString(13),c.getString(12),
+                            c.getString(14)));
 
-                listaEtqs.add( new Etqs_invent(c.getInt(0),c.getInt(1),c.getString(2),c.getInt(3), c.getString(4),c.getString(5),c.getString(6),c.getString(7),c.getString(8),c.getString(10),c.getString(9),c.getString(11),c.getString(13),c.getString(12),c.getString(14)));
-            }while(c.moveToNext());
-            return listaEtqs;
+                } while(c.moveToNext());
+            }
+
+        } else {
+            Toast.makeText(context, "No se han encontrado inventarios. Cursor: " + c.toString() , Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            return listaEtqs;
-        }
-    }
+        db.close();
+        Objects.requireNonNull(c).close();
 
-    public void firsInsert(int id_inventario)
-    {
+    return listaEtqs;
+}
+
+    public void firsInsert(int id_inventario) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("id_invent",id_inventario);
@@ -255,21 +246,19 @@ public ArrayList<Etqs_invent> fillArray(int id_invent){
     }
 
     public boolean getOpen(int id_invent) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor c = db.rawQuery("SELECT * FROM etqs_invent WHERE id_invent = ?",new String[]{String.valueOf(id_invent)});
-        if(c.moveToFirst())
-        {
+
+        if(c.moveToFirst()) {
             return true;
         }
         else return false;
-
-
     }
 
     public void deleteRows() {
 
-            SQLiteDatabase db = this.getWritableDatabase();
-            db.execSQL("DELETE FROM "+ TABLE_NAME);
-
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_NAME);
     }
 }

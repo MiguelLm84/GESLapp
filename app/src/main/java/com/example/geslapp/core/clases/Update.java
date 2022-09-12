@@ -1,5 +1,6 @@
 package com.example.geslapp.core.clases;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -26,35 +27,35 @@ import java.util.Date;
 import java.util.List;
 
 public class Update extends AsyncTask<String, Integer, String> {
-    private ProgressDialog mPDialog;
+
+    @SuppressLint("StaticFieldLeak")
     private static Context mContext;
+    private ProgressDialog mPDialog;
     private static String PATH;
-    private static String sarg;
     private static boolean lastmod,updated;
 
-    private ConfigPreferences config = new ConfigPreferences();
+    private final ConfigPreferences config = new ConfigPreferences();
 
     public void setContext(Activity context) {
         mContext = context;
         updated = false;
-        context.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mPDialog = new ProgressDialog(mContext);
-                mPDialog.setMessage("Espere por favor...");
-                mPDialog.setIndeterminate(true);
-                mPDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                mPDialog.setCancelable(false);
-                mPDialog.show();
-            }
+
+        context.runOnUiThread(() -> {
+            mPDialog = new ProgressDialog(mContext);
+            mPDialog.setMessage("Espere por favor...");
+            mPDialog.setIndeterminate(true);
+            mPDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mPDialog.setCancelable(false);
+            mPDialog.show();
         });
     }
 
     @Override
     protected String doInBackground(String... arg0) {
+
         try {
             new CheckConnection().cancel(true);
-            sarg = arg0[0];
+            String sarg = arg0[0];
             URL url = new URL(arg0[0]);
             HttpURLConnection c = (HttpURLConnection) url.openConnection();
             c.setRequestMethod("GET");
@@ -62,8 +63,8 @@ public class Update extends AsyncTask<String, Integer, String> {
             c.connect();
             int lenghtOfFile = c.getContentLength();
             lastmod = LastModified(sarg);
-            if(lastmod)
-            {
+
+            if(lastmod) {
                 //V3
                 PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
                 File file = new File(PATH);
@@ -75,12 +76,10 @@ public class Update extends AsyncTask<String, Integer, String> {
                 }
                 if (!outputFile.exists()) {
                     outputFile.createNewFile();
-
                 }
 
                 //Toast.makeText(mContext, "Arhivo antiguo borrado" + outputFile.exists(), Toast.LENGTH_SHORT).show();
                 FileOutputStream fos = new FileOutputStream(outputFile);
-
                 InputStream is = c.getInputStream();
 
                 byte[] buffer = new byte[1024];
@@ -95,22 +94,16 @@ public class Update extends AsyncTask<String, Integer, String> {
                 is.close();
                 if (mPDialog != null) mPDialog.dismiss();
                 Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        installApk();
-                        config.setLastAppUpdate(mContext);
-                    }
+
+                handler.postDelayed(() -> {
+                    installApk();
+                    config.setLastAppUpdate(mContext);
                 },500);
 
-            }
-            else
-            {
-
+            } else {
                 mPDialog.dismiss();
                 Toast.makeText(mContext, "No hay actualizaciones back", Toast.LENGTH_SHORT).show();
             }
-
 
         } catch (Exception e) {
             Log.e("UpdateAPP", "Update error! " + e.getMessage());
@@ -121,11 +114,8 @@ public class Update extends AsyncTask<String, Integer, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        if (mPDialog != null)
-            mPDialog.show();
-
+        if (mPDialog != null) mPDialog.show();
     }
-
 
     @Override
     protected void onProgressUpdate(Integer... values) {
@@ -139,40 +129,34 @@ public class Update extends AsyncTask<String, Integer, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if (mPDialog != null)
-            mPDialog.dismiss();
+
+        if (mPDialog != null) mPDialog.dismiss();
         PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
         File file = new File(PATH);
         boolean isCreate = file.mkdirs();
         File outputFile = new File(file, "geslapp.apk");
         long filesize = outputFile.length();
        // Toast.makeText(mContext, ""+outputFile.lastModified(), Toast.LENGTH_SHORT).show();
-        if(!lastmod||filesize == 0)
-        {
 
+        if(!lastmod||filesize == 0) {
             Toast.makeText(mContext, "No hay actualizaciones post"+filesize+"LASTMOD:"+lastmod, Toast.LENGTH_SHORT).show();
-
             Log.v("No last-modified information.",""+config.getLastUpdate(mContext));
 
-
-
-        }
-       else if (result != null )
+        } else if (result != null ) {
             Toast.makeText(mContext, "Error de descarga" , Toast.LENGTH_LONG).show();
-        else
-        {
 
+        } else {
             Toast.makeText(mContext, "Archivo añadido a descargas", Toast.LENGTH_SHORT).show();
         }
     }
 
-
     private void installApk() {
+
         try {
             String PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).getAbsolutePath();
             File file = new File(PATH + "/geslapp.apk");
             Intent intent = new Intent(Intent.ACTION_VIEW);
-            if (Build.VERSION.SDK_INT >= 24) {
+            if (Build.VERSION.SDK_INT >= 26) {
                 Uri downloaded_apk = FileProvider.getUriForFile(mContext, mContext.getApplicationContext().getPackageName() + ".provider", file);
                 intent.setDataAndType(downloaded_apk, "application/vnd.android.package-archive");
                 List<ResolveInfo> resInfoList = mContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -197,8 +181,8 @@ public class Update extends AsyncTask<String, Integer, String> {
         }
     }
 
-    public boolean LastModified(String url)
-    {
+    public boolean LastModified(String url) {
+
         HttpURLConnection.setFollowRedirects(false);
         HttpURLConnection con = null;
         try {
@@ -206,12 +190,10 @@ public class Update extends AsyncTask<String, Integer, String> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-         long date = con.getLastModified();
+         long date = con != null ? con.getLastModified() : 0;
          long lastupdate = config.getLastUpdate(mContext);
 
-
-        if (date == config.getLastUpdate(mContext))
-        {
+        if (date == config.getLastUpdate(mContext)) {
             System.out.println("No last-modified information."+new Date(date));
             //Toast.makeText(mContext, "lastmod:---"+config.getLastUpdate(mContext), Toast.LENGTH_SHORT).show();
             return false;
@@ -222,15 +204,10 @@ public class Update extends AsyncTask<String, Integer, String> {
             config.setLastUpdate(mContext, date);
            // Toast.makeText(mContext, "lastmod:---"+config.getLastUpdate(mContext), Toast.LENGTH_SHORT).show();
             return true;
-
         }
-
-
-
     }
     public boolean getUpdated()
     {
         return updated;
     }
-
 }
